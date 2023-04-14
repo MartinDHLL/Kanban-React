@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import ContextMenuButton from "../ContextMenuButton/ContextMenuButton";
 import { toast } from "react-hot-toast";
+import Draggable from "../Lists/dragAndDropTask/Draggable";
+import Droppable from "../Lists/dragAndDropTask/Droppable";
 
-const Task = ({ task, handleRemove, handleUpdate }) => {
+const Task = ({ task, handleRemove, handleUpdate, tasks, isDragging }) => {
   const [nameComponent, setNameComponent] = useState(
     <p className="w-full overflow-x-auto">{task.name}</p>
   );
@@ -61,11 +63,21 @@ const Task = ({ task, handleRemove, handleUpdate }) => {
     }
   }, [task, handleRemove, handleUpdate]);
 
+  const [position, setPosition] = useState(undefined);
+
   return (
     <div
       colSpan={2}
       className="w-full text-center flex justify-between gap-x-5 items-center"
+      style={position}
     >
+      <Droppable
+        task={task}
+        setTasks={handleUpdate}
+        tasks={tasks}
+        isDragging={isDragging}
+      />
+      <Draggable task={task} handleCurrentPosition={setPosition} />
       {nameComponent}
       <ContextMenuButton
         type={"task"}

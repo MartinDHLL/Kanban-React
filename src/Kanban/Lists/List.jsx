@@ -2,10 +2,17 @@ import { useState } from "react";
 import ContextMenuButton from "../ContextMenuButton/ContextMenuButton";
 import Tasks from "../Tasks/Tasks";
 import { toast } from "react-hot-toast";
-import Draggable from "./dragAndDrop/Draggable";
-import Droppable from "./dragAndDrop/Droppable";
+import Draggable from "./dragAndDropList/Draggable";
+import Droppable from "./dragAndDropList/Droppable";
 
-const List = ({ list, handleRemove, isDragging, lists, setLists }) => {
+const List = ({
+  list,
+  handleRemove,
+  isDragging,
+  handleUpdate,
+  lists,
+  setLists,
+}) => {
   const [tasks, setTasks] = useState([]);
 
   const [isEdit, setEditState] = useState(false);
@@ -15,6 +22,9 @@ const List = ({ list, handleRemove, isDragging, lists, setLists }) => {
       ...tasks,
       {
         id: (tasks.sort((a, b) => a.id - b.id)[tasks.length - 1]?.id ?? -1) + 1,
+        position:
+          (tasks.sort((a, b) => a.position - b.position)[tasks.length - 1]
+            ?.position ?? -1) + 1,
         name: "",
         mode: "edit",
       },
@@ -24,7 +34,7 @@ const List = ({ list, handleRemove, isDragging, lists, setLists }) => {
   const updateTask = (task) => {
     setTasks(
       tasks.map((actualTask) =>
-        actualTask.id === task.id ? { ...actualTask, task } : actualTask
+        actualTask.id === task.id ? { ...actualTask, ...task } : actualTask
       )
     );
     console.log(tasks);
@@ -38,9 +48,11 @@ const List = ({ list, handleRemove, isDragging, lists, setLists }) => {
   const handleInput = (e) => {
     if (e.key === "Enter") {
       list.name = e.target.value;
-      updateTask(list);
-      toast.success("Le nom de la liste a bien été mis à jour");
-      setEditState(false);
+      list.name.length > 0
+        ? handleUpdate(list) ||
+          (toast.success("Le nom de la liste a bien été mis à jour") &&
+            setEditState(false))
+        : toast.error("Le champs ne doit pas être vide");
     }
     if (e.key === "Escape") {
       setEditState(false);

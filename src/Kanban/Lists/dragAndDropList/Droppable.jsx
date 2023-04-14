@@ -1,7 +1,7 @@
 import { useDroppable } from "@dnd-kit/core";
 import { useCallback, useEffect, useState } from "react";
 
-const Droppable = ({ list, isDragging, tasks, setTasks, lists, setLists }) => {
+const Droppable = ({ list, isDragging, tasks, lists, setLists }) => {
   const { setNodeRef, isOver, over, active } = useDroppable({
     id: `DroppableList${list.id + 1}`,
     data: { list: list, tasks: tasks, acceptedType: "list" },
@@ -29,7 +29,6 @@ const Droppable = ({ list, isDragging, tasks, setTasks, lists, setLists }) => {
 
   useEffect(() => {
     if (isOver && canUpdate) {
-      console.log("over");
       const activeData = active?.data.current ?? null;
       const overData = over?.data.current ?? null;
       over && activeData.type === overData.acceptedType
@@ -41,13 +40,11 @@ const Droppable = ({ list, isDragging, tasks, setTasks, lists, setLists }) => {
 
   return (
     <div
-      className={`h-10 bg-orange-200 animate-pulse ${
-        isDragging ? "visible" : "invisible"
-      }`}
+      className={`h-10 animate-pulse ${isDragging ? "visible" : "invisible"}`}
       ref={setNodeRef}
     >
       <img
-        className="object-contain w-full h-full p-2"
+        className="object-contain w-full h-full p-2 animate-bounce"
         src="dropbox.svg"
         alt="dropbox"
       />

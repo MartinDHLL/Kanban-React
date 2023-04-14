@@ -24,7 +24,12 @@ export default function Lists() {
   };
 
   const updateList = (list) => {
-    setLists((lists) => [...lists, list]);
+    setLists(
+      lists.map((actualList) =>
+        actualList.id === list.id ? { ...actualList, ...list } : actualList
+      )
+    );
+    console.log(lists);
   };
 
   const removeList = (id) =>

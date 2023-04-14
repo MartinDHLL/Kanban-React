@@ -1,21 +1,16 @@
 import { useDraggable } from "@dnd-kit/core";
 import { useEffect } from "react";
 
-const Draggable = ({
-  list,
-  handleCurrentPosition,
-  setInitialPosition,
-  tasks,
-}) => {
+const Draggable = ({ task, handleCurrentPosition, setInitialPosition }) => {
   const { setNodeRef, transform, listeners, attributes } = useDraggable({
-    id: `DraggableList${list.id + 1}`,
-    data: { list: list, tasks: tasks, type: "list" },
+    id: `DraggableTask${task.id + 1}`,
+    data: { task: task, type: "task" },
   });
 
   useEffect(() => {
     if (transform) {
       handleCurrentPosition({
-        transform: `translate(${transform.x}px, ${transform.y}px)`,
+        transform: `translate(0px, ${transform.y}px)`,
       });
     } else {
       handleCurrentPosition(undefined);
@@ -24,8 +19,8 @@ const Draggable = ({
 
   return (
     <div ref={setNodeRef} {...listeners} {...attributes} className="w-10">
-      <hr className="border-[4px] mb-1 rounded-xl" />
-      <hr className="border-[4px] rounded-xl" />
+      <hr className="border-[4px] mb-1 rounded-xl border-slate-700" />
+      <hr className="border-[4px] rounded-xl border-slate-600" />
     </div>
   );
 };
