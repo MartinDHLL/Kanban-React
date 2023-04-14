@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 
 const Task = ({ task, handleRemove, handleUpdate }) => {
   const [nameComponent, setNameComponent] = useState(
-    <p className="w-60 overflow-x-auto">{task.name}</p>
+    <p className="w-full overflow-x-auto">{task.name}</p>
   );
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const Task = ({ task, handleRemove, handleUpdate }) => {
   return (
     <div
       colSpan={2}
-      className="text-center flex justify-between gap-x-5 items-center"
+      className="w-full text-center flex justify-between gap-x-5 items-center"
     >
       {nameComponent}
       <ContextMenuButton

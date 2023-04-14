@@ -22,14 +22,14 @@ const Droppable = ({ list, isDragging, tasks, setTasks, lists, setLists }) => {
           : actualList
       );
       setLists(reorderedList);
-      setTasks([{ id: 1, name: "test", mode: "edit" }]);
-      setUpdateState(false); // block update state to avoid infinite re-render
+      setUpdateState(false); // block update state to avoid infinite re-render on same droppable box
     },
-    [setLists, lists, setTasks]
+    [setLists, lists]
   );
 
   useEffect(() => {
     if (isOver && canUpdate) {
+      console.log("over");
       const activeData = active?.data.current ?? null;
       const overData = over?.data.current ?? null;
       over && activeData.type === overData.acceptedType
@@ -41,9 +41,17 @@ const Droppable = ({ list, isDragging, tasks, setTasks, lists, setLists }) => {
 
   return (
     <div
-      className={`h-1 ${isDragging ? "visible" : "invisible"}`}
+      className={`h-10 bg-orange-200 animate-pulse ${
+        isDragging ? "visible" : "invisible"
+      }`}
       ref={setNodeRef}
-    />
+    >
+      <img
+        className="object-contain w-full h-full p-2"
+        src="dropbox.svg"
+        alt="dropbox"
+      />
+    </div>
   );
 };
 

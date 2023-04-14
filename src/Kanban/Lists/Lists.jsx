@@ -9,7 +9,7 @@ export default function Lists() {
     { id: 1, name: "Test", position: 1 },
   ]);
 
-  const addList = () =>
+  const addList = () => {
     setLists((lists) => [
       ...lists,
       {
@@ -20,13 +20,12 @@ export default function Lists() {
             ?.position ?? -1) + 1,
       },
     ]);
+    console.log(lists);
+  };
 
-  const updateList = (list) =>
-    setLists(
-      lists.map((actualList) =>
-        list.id === actualList.id ? { ...list, list } : list
-      )
-    );
+  const updateList = (list) => {
+    setLists((lists) => [...lists, list]);
+  };
 
   const removeList = (id) =>
     setLists(lists.filter((list) => (list.id !== id ? list : null)));
@@ -37,6 +36,7 @@ export default function Lists() {
     <DndContext
       onDragStart={() => setDraggingState(true)}
       onDragEnd={() => setDraggingState(false)}
+      onDragCancel={() => setDraggingState(false)}
     >
       <div className="h-full flex flex-col gap-y-5">
         <ButtonsBar handleAdd={addList} />

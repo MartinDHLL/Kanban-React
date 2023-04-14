@@ -9,10 +9,15 @@ const List = ({ list, handleRemove, isDragging, lists, setLists }) => {
   const [tasks, setTasks] = useState([]);
 
   const [isEdit, setEditState] = useState(false);
+
   const addTask = () => {
-    setTasks([
+    setTasks((tasks) => [
       ...tasks,
-      { id: (tasks[tasks.length - 1]?.id ?? -1) + 1, name: "", mode: "edit" },
+      {
+        id: (tasks.sort((a, b) => a.id - b.id)[tasks.length - 1]?.id ?? -1) + 1,
+        name: "",
+        mode: "edit",
+      },
     ]);
   };
 
@@ -22,6 +27,7 @@ const List = ({ list, handleRemove, isDragging, lists, setLists }) => {
         actualTask.id === task.id ? { ...actualTask, task } : actualTask
       )
     );
+    console.log(tasks);
   };
 
   const removeTask = (id) =>
@@ -44,12 +50,7 @@ const List = ({ list, handleRemove, isDragging, lists, setLists }) => {
   const [position, setPosition] = useState(undefined);
 
   return (
-    <div>
-      <Draggable
-        list={list}
-        tasks={tasks}
-        handleCurrentPosition={setPosition}
-      />
+    <div className="relative z-10">
       <Droppable
         list={list}
         isDragging={isDragging}
@@ -65,6 +66,11 @@ const List = ({ list, handleRemove, isDragging, lists, setLists }) => {
         <thead>
           <tr>
             <th className="text-center flex justify-between gap-x-5 items-center bg-stone-800 text-white">
+              <Draggable
+                list={list}
+                tasks={tasks}
+                handleCurrentPosition={setPosition}
+              />
               {isEdit ? (
                 <input
                   className="input input-sm input-bordered text-center text-black"
@@ -88,8 +94,8 @@ const List = ({ list, handleRemove, isDragging, lists, setLists }) => {
           </tr>
         </thead>
 
-        <tbody className="h-full">
-          <tr className="h-full">
+        <tbody className="h-full w-full">
+          <tr className="h-full w-full">
             <Tasks
               tasks={tasks}
               handleRemove={removeTask}

@@ -23,12 +23,10 @@ const Draggable = ({
   }, [handleCurrentPosition, transform, setInitialPosition]);
 
   return (
-    <hr
-      ref={setNodeRef}
-      {...listeners}
-      {...attributes}
-      className="border-[10px] mb-2 rounded-xl hover:border-zinc-800"
-    />
+    <div ref={setNodeRef} {...listeners} {...attributes} className="w-10">
+      <hr className="border-[4px] mb-1 rounded-xl" />
+      <hr className="border-[4px] rounded-xl" />
+    </div>
   );
 };
 
